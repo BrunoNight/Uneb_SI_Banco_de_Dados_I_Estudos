@@ -10,7 +10,6 @@
 ----- Questão 1:	Criação das tabelas respeitando as restrições impostas pela Confederação -----
 
 -- Criação da Tabela Federacao
--- DROP TABLE FEDERACAO;
 CREATE TABLE FEDERACAO (
 	cod_fed INT NOT NULL,
 	descricao VARCHAR(30) NOT NULL,
