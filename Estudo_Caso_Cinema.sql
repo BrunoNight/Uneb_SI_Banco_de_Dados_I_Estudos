@@ -133,9 +133,9 @@ INSERT INTO Salas (cod_cinema, numero_sala, capacidade) VALUES
 	(4, 4, 50);
 
 INSERT INTO Horarios (cod_horario, inicio, fim) VALUES
-	(1, 0730, 1730),
-	(2, 0700, 1930),
-	(3, 0900, 2300);
+	(1, 0730, 1030),
+	(2, 1130, 1300),
+	(3, 1400, 1630);
 
 INSERT INTO Estudio (cod_estudio, nome, pais) VALUES
 	(1, 'Quirky Productions', 'Brasil'),
@@ -229,7 +229,82 @@ SELECT DISTINCT
 	JOIN Sessao AS s ON c.cod_cinema = s.cod_cinema
 	WHERE s.preco <= 10;
 
+-- Questão 4
+SELECT DISTINCT
+	c.cidade AS "Nome da Cidade",
+	c.nome AS "Nome do Cinema",
+	c.endereco AS "Endereço do Cinema",
+	c.telefone AS "Telefone do Cinema",
+	s.preco AS "Valor do Ingresso"
 
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	WHERE s.preco > 20
+	ORDER BY c.cidade ASC;
 
+-- Questão 5
+SELECT
+	f.cod_filme AS "Código",
+	f.nome AS "Nome",
+	h.inicio AS "Início do Filme",
+	h.fim AS "Fim do Filme",
+	f.censura AS "Censura"
 
+	FROM Filmes AS f
+	JOIN Sessao AS s ON s.cod_filme = f.cod_filme
+	JOIN Horarios AS h ON h.cod_horario = s.cod_horario
+	JOIN Cinemas AS c ON s.cod_cinema = c.cod_cinema
+	WHERE h.inicio >= 1200 AND h.fim <= 1700
+		AND s.qtd_ingressos > 0
+		AND s.qtd_ingressos > s.qtd_vendidos
+		AND f.censura > 13
+		AND c.cod_cinema = 4;
 
+-- Questão 6
+SELECT DISTINCT
+	a.nome_ator AS "Nome do Ator",
+	a.pais_ator AS "País",
+	f.cod_filme AS "Filme"
+
+	FROM Atores AS a
+	JOIN Elenco AS e ON e.cod_ator = a.cod_ator
+	JOIN Filmes AS f ON f.cod_filme = e.cod_filme
+	JOIN Cinemas AS c ON c.cod_cinema = 1
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+		AND s.cod_filme = f.cod_filme
+	ORDER BY a.nome_ator ASC;
+	
+-- Questão 7
+SELECT DISTINCT
+	c.nome AS "Nome do Cinema",
+	c.endereco AS "Endereço"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	WHERE s.preco < 10;
+
+-- Questão 8
+SELECT
+	c.cod_cinema AS "Código do Cinema",
+	c.nome AS "Nome do Cinema",
+	f.nome AS "Nome do Filme",
+	h.inicio AS "Início",
+	h.fim AS "Fim",
+	sl.capacidade AS "Capacidade"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	JOIN Filmes AS f ON f.cod_filme = s.cod_filme
+	JOIN Horarios AS h ON h.cod_horario = s.cod_horario
+	JOIN Salas AS sl ON sl.cod_cinema = s.cod_cinema
+		AND sl.numero_sala = s.numero_sala
+	WHERE sl.capacidade > 200;
+
+-- Questão 9
+SELECT
+	c.cod_cinema AS "Cinema",
+	COUNT(*) AS "Quantidade de Sessões"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	GROUP BY c.cod_cinema;
