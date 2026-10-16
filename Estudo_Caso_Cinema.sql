@@ -308,3 +308,31 @@ SELECT
 	FROM Cinemas AS c
 	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
 	GROUP BY c.cod_cinema;
+
+-- Questão 10
+SELECT
+	c.cod_cinema AS "Código do cinema",
+	c.nome AS "Nome do Cinema",
+	sl.numero_sala AS "Número da Sala",
+	COUNT(*) AS "Quantidade de Sessões"
+
+	FROM Cinemas AS c
+	JOIN Salas AS sl ON sl.cod_cinema = c.cod_cinema
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+		AND s.numero_sala = sl.numero_sala
+	GROUP BY c.cod_cinema, c.nome, sl.numero_sala;
+
+-- Questão 11
+SELECT
+	c.cod_cinema AS "Código do Cinema",
+	c.nome AS "Nome do Cinema",
+	f.cod_filme AS "Código do Filme",
+	f.nome AS "Nome do Filme",
+	SUM(s.preco * s.qtd_vendidos) AS "Bilheteria"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	JOIN Filmes AS f ON f.cod_filme = s.cod_filme
+	GROUP BY c.cod_cinema, c.nome, f.cod_filme, f.nome;
+
+-- Questão 12
