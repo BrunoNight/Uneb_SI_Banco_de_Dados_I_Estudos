@@ -198,7 +198,7 @@ INSERT INTO Sessao (cod_cinema, cod_filme, numero_sala, cod_horario, preco, qtd_
 --I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I--
 
 -- Questão 1
-SELECT DISTINCT
+SELECT
 	f.nome AS "Nome do Filme",
 	f.censura AS "Censura"
 
@@ -208,7 +208,7 @@ SELECT DISTINCT
 	ORDER BY f.nome ASC;
 
 -- Questão 2
-SELECT DISTINCT
+SELECT
 	c.cod_cinema AS "Código",
 	c.nome AS "Nome do Cinema",
 	f.nome AS "Nome do Filme",
@@ -220,6 +220,14 @@ SELECT DISTINCT
 	WHERE s.cod_cinema = 2 OR s.cod_cinema = 4
 	ORDER BY c.nome DESC;
 
+-- Questão 3
+SELECT DISTINCT
+	c.nome AS "Nome do Cinema",
+	c.estado AS "Estado"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON c.cod_cinema = s.cod_cinema
+	WHERE s.preco <= 10;
 
 
 
