@@ -336,3 +336,21 @@ SELECT
 	GROUP BY c.cod_cinema, c.nome, f.cod_filme, f.nome;
 
 -- Questão 12
+SELECT
+	e.cod_estudio AS "Código do Estúdio",
+	e.nome AS "Nome do Estúdio",
+	SUM(s.qtd_vendidos) AS "Quantidade de Ingressos Vendidos",
+	SUM(s.preco * s.qtd_vendidos) AS "Total da Venda de Ingressos"
+
+	FROM Estudio AS e
+	JOIN Filmes AS f ON f.cod_estudio = e.cod_estudio
+	JOIN Sessao AS s ON s.cod_filme = f.cod_filme
+	GROUP BY e.cod_estudio, e.nome
+	ORDER BY "Total da Venda de Ingressos" DESC;
+
+-- Questão 13
+
+
+
+
+
