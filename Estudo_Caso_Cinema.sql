@@ -1,4 +1,4 @@
-I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I
+--I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I--
 
 -- Criação das tabelas do Estudo de Caso I Cinemas
 
@@ -97,7 +97,7 @@ CREATE TABLE Elenco (
   		FOREIGN KEY (cod_ator) REFERENCES Atores(cod_ator)
 );
 
-I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I
+--I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I--
 
 -- Criação de dados nas tabelas do Estudo de Caso I Cinemas
 
@@ -195,10 +195,30 @@ INSERT INTO Sessao (cod_cinema, cod_filme, numero_sala, cod_horario, preco, qtd_
 	(4, 15, 3, 1, 20.00, 120, 45), (4, 2, 3, 2, 20.00, 120, 80), (4, 3, 3, 3, 24.00, 120, 110),
 	(4, 5, 4, 1, 20.00, 50, 15),  (4, 1, 4, 2, 20.00, 50, 30),  (4, 13, 4, 3, 24.00, 50, 48);
 
+--I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I--
 
+-- Questão 1
+SELECT DISTINCT
+	f.nome AS "Nome do Filme",
+	f.censura AS "Censura"
 
+	FROM Sessao AS s
+	JOIN Filmes AS f ON s.cod_filme = f.cod_filme
+	WHERE s.cod_cinema = 1
+	ORDER BY f.nome ASC;
 
+-- Questão 2
+SELECT DISTINCT
+	c.cod_cinema AS "Código",
+	c.nome AS "Nome do Cinema",
+	f.nome AS "Nome do Filme",
+	f.censura AS "Censura"
 
+	FROM Sessao AS s
+	JOIN Filmes AS f ON s.cod_filme = f.cod_filme
+	JOIN Cinemas AS c ON s.cod_cinema = c.cod_cinema
+	WHERE s.cod_cinema = 2 OR s.cod_cinema = 4
+	ORDER BY c.nome DESC;
 
 
 
