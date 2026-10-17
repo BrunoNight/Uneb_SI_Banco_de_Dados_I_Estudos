@@ -407,15 +407,15 @@ SELECT
 	JOIN Estudio AS e ON e.cod_estudio = f.cod_estudio
 	JOIN (
     	SELECT
-        	cod_cinema,
-        	SUM(preco * qtd_vendidos) AS faturamento_cinema
-    	FROM Sessao
-    	JOIN Horarios AS h2 ON h2.cod_horario = cod_horario
+        	s2.cod_cinema,
+        	SUM(s2.preco * s2.qtd_vendidos) AS faturamento_cinema
+    	FROM Sessao AS s2
+    	JOIN Horarios AS h2 ON h2.cod_horario = s2.cod_horario
     	WHERE h2.inicio BETWEEN 1000 AND 1200
-    	GROUP BY cod_cinema
+    	GROUP BY s2.cod_cinema
 	) AS faturamento_total_cinema ON c.cod_cinema = faturamento_total_cinema.cod_cinema
 	WHERE h.inicio BETWEEN 1000 AND 1200
-	GROUP BYc.cod_cinema, c.nome, c.estado, e.cod_estudio, e.nome, faturamento_total_cinema.faturamento_cinema
+	GROUP BY c.cod_cinema, c.nome, c.estado, e.cod_estudio, e.nome, faturamento_total_cinema.faturamento_cinema
 	ORDER BY faturamento_total_cinema.faturamento_cinema DESC;
 
 -- Questão 16
