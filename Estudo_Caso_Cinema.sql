@@ -99,6 +99,14 @@ CREATE TABLE Elenco (
 
 --I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I=====I--
 
+DELETE FROM Sessao;
+DELETE FROM Horarios;
+DELETE FROM Salas;
+DELETE FROM Filmes;
+DELETE FROM Atores;
+DELETE FROM Estudio;
+DELETE FROM Cinemas;
+
 -- Criação de dados nas tabelas do Estudo de Caso I Cinemas
 
 INSERT INTO Cinemas (cod_cinema, nome, telefone, endereco, cidade, estado) VALUES
@@ -154,7 +162,7 @@ INSERT INTO Atores (cod_ator, nome_ator, pais_ator) VALUES
 	(10, 'Wagner Moura', 'Brasil');
 
 INSERT INTO Filmes (cod_filme, cod_estudio, nome, censura, diretor, sinopse) VALUES
-	(1, 1, 'O Homem do Café Extraforte', 18, 'Leonardo Da Madrugada', 'Homem encontra café extraforte, e o último acaba com tudo')
+	(1, 1, 'O Homem do Café Extraforte', 18, 'Leonardo Da Madrugada', 'Homem encontra café extraforte, e o último acaba com tudo'),
 	(2, 2, 'Inimigos do Despertador', 14, 'Soneca Rodrigues', 'Grupo luta contra o toque das 06:00, mas a bateria nao acaba.'),
 	(3, 1, 'A Vinganca do CLT', 12, 'Chefe Sem Noçao', 'Funcionario recebe e-mail sexta as 17:59 e sua mente sabota o PC.'),
 	(4, 1, 'Maratona Interminavel', 10, 'Series Da Noite', 'Ele disse que era so mais um episodio, agora ja amanheceu.'),
