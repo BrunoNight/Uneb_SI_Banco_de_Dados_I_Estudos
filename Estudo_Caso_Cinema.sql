@@ -346,11 +346,78 @@ SELECT
 	JOIN Filmes AS f ON f.cod_estudio = e.cod_estudio
 	JOIN Sessao AS s ON s.cod_filme = f.cod_filme
 	GROUP BY e.cod_estudio, e.nome
-	ORDER BY "Total da Venda de Ingressos" DESC;
+	ORDER BY SUM(s.preco * s.qtd_vendidos) DESC;
 
 -- Questão 13
+SELECT
+	e.cod_estudio AS "Código do Estúdio",
+	e.nome AS "Nome do Estúdio",
+	SUM(s.qtd_ingressos - s.qtd_vendidos) AS "Total de Ingressos Não Vendidos",
+	SUM((s.qtd_ingressos - s.qtd_vendidos) * s.preco) AS "Valor Total de Ingressos Não Vendidos"
 
+	FROM Estudio AS e
+	JOIN Filmes AS f ON f.cod_estudio = e.cod_estudio
+	JOIN Sessao AS s ON s.cod_filme = f.cod_filme
+	GROUP BY e.cod_estudio, e.nome
+	ORDER BY SUM((s.qtd_ingressos - s.qtd_vendidos) * s.preco) DESC;
 
+-- Questão 14
+SELECT
+	c.cod_cinema AS "Código do Cinema",
+	c.nome AS "Nome do Cinema",
+	c.estado AS "Estado",
+	e.nome AS "Nome do Estúdio",
+	SUM(s.qtd_vendidos) AS "Quantidade de Ingressos Vendidos",
+	SUM(s.preco * s.qtd_vendidos) AS "Valor Total da Venda de Ingressos"
 
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	JOIN Filmes AS f ON f.cod_filme = s.cod_filme
+	JOIN Estudio AS e ON e.cod_estudio = f.cod_estudio
+	JOIN (SELECT cod_cinema, SUM(preco * qtd_vendidos) AS faturamento_cinema
+		FROM Sessao
+		GROUP BY cod_cinema
+	) AS faturamento_total_cinema ON c.cod_cinema = faturamento_total_cinema.cod_cinema
+	GROUP BY c.cod_cinema, c.nome, c.estado, e.nome, faturamento_total_cinema.faturamento_cinema
+	ORDER BY faturamento_total_cinema.faturamento_cinema DESC;
+
+-- Questão 15
+SELECT
+	c.cod_cinema AS "Código do Cinema",
+	c.nome AS "Nome do Cinema",
+	c.estado AS "Estado",
+	e.nome AS "Nome do Estúdio",
+	SUM(s.qtd_vendidos) AS "Quantidade de Ingressos Vendidos",
+	SUM(s.preco * s.qtd_vendidos) AS "Valor Total da Venda de Ingressos",
+	SUM(s.qtd_ingressos - s.qtd_vendidos) AS "Quantidade de Ingressos Não Vendidos",
+	SUM((s.qtd_ingressos - s.qtd_vendidos) * s.preco) AS "Valor Total dos Ingressos Não Vendidos"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	JOIN Filmes AS f ON f.cod_filme = s.cod_filme
+	JOIN Estudio AS e ON e.cod_estudio = f.cod_estudio
+	JOIN (
+		SELECT
+			cod_cinema, SUM(preco * qtd_vendidos) AS faturamento_cinema
+		FROM Sessao
+		WHERE cod_horario BETWEEN 1000 AND 1200
+		GROUP BY cod_cinema
+	) AS faturamento_total_cinema ON c.cod_cinema = faturamento_total_cinema.cod_cinema
+	WHERE s.cod_horario BETWEEN 1000 AND 1200
+	GROUP BY c.cod_cinema, c.nome, c.estado, e.nome, faturamento_total_cinema.faturamento_cinema
+	ORDER BY faturamento_total_cinema.faturamento_cinema DESC;
+
+-- Questão 16
+SELECT
+	c.cod_cinema AS "Código do Cinema",
+	c.estado AS "Estado",
+	h.cod_horario AS "Horário",
+	SUM(s.preco * s.qtd_vendidos) AS "Faturamento"
+
+	FROM Cinemas AS c
+	JOIN Sessao AS s ON s.cod_cinema = c.cod_cinema
+	JOIN Horarios AS h ON h.cod_horario = s.cod_horario
+	GROUP BY c.cod_cinema, c.estado, h.cod_horario;
+			
 
 
